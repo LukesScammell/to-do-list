@@ -74,3 +74,16 @@ function handleMenu(choice){
     }
 
 }
+//NOTE - Function to display all task in the list
+function listTasks(){
+    console.log('\nYour TO-DO List:') // Print list header
+    if(todos,length === 0) {
+        console.log('No tasks found.') // inform user that list is empty
+    } else {
+        todos.forEach((task, idx) => {
+            const status = task.done ? 'Complete' : 'Not Complete' // Determine status task
+            console.log(`${idx + 1}, (${status}) ${task.text}`) // Print task number, status and description
+        });
+    }
+    showMenu()
+}
