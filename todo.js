@@ -87,3 +87,56 @@ function listTasks(){
     }
     showMenu()
 }
+
+// Funciton to add a new task to the list
+function addTask(){
+    rl.question('\nEnter the task: ', (task) => {
+        if(task.trim() === ''){ // If input is empty or only spaces
+            console.log('Task cannot be empty.') // Show error message
+        } else {
+            todos.push({text: task, done: false}) // Add a new task object (not completed by default)
+            saveTasks() // Save updated tasks to file
+            console.log('Task added!') // addition 
+        }
+        showMenu() // Show menu again
+    })
+}
+//NOTE - Function to prompt the user to select a task to mark as completed
+function promptMarkTaskAsDone() {
+    if(todos.length === 0) { //If there are no tasks
+        console.log('\nNo tasks to mark as done.') // Inform user
+        return showMenu()
+    }
+    console.log('\nSelect the number of task to mark as completed:') // print prompt header
+    todos.forEach((task, idx) => {                              // list all tasks with their numbers
+        const status = task.done ? 'Completed' : 'Not Completed' // Status as text
+        console.log(`${idx +1}. (${status}) ${task.text}`) // Print each task
+    })
+    rl.question ('\nTask number: ', (num) => { // Prompt for task number
+        promptMarkTaskAsDone(num) // Pass input to markTaskAsDone function
+    })
+}
+//NOTE - Funciton to mark the selected task as completed
+function markTaskAsDone(num) {
+    let idx = parseInt(num) -1 // Convert user input to array index
+    if(todos[idx]) { // If a task exists at the index
+        todos[idx].done = true // Mark the task as completed
+        saveTasks()     // Save changes to file
+        console.log('Task mark as completed!') // Confirm completion
+    } else {
+        console.log('Invalid task number.') // If input invalid, show error
+    }
+    showMenu() // Show menu again
+}
+//NOTE - Function to prompt the user to select a task to delete 
+function promptDeleteTask() {
+    if(todos.length === 0) {
+        console.log('\nNo tasks to delete.')
+        return showMenu()
+    }
+    console.log('\nSelect the number of the task to delete:')
+    todos.forEach((task,idx) => {
+        const status = task.done ? 'Completed' : 'Not Complete'
+        console.log(`${idx +1}. (${status}) ${task.text}`)
+    })
+}
